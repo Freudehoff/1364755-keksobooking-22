@@ -7,3 +7,5 @@ function getRandomFloat(from, to, decimal = 2) {
 
   throw new Error('Input data error');
 }
+
+getRandomFloat();
