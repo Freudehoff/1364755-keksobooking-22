@@ -35,20 +35,16 @@ const TIME = ['12:00', '13:00', '14:00'];
 const EXTRAS = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const APPEARANCES = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-const LOCATION_X = getRandomFloat(35.65000, 35.70000);
-const LOCATION_Y = getRandomFloat(139.70000, 139.80000);
-const AVATAR_ID = getRandomInt(1, 8);
-
-const OFFER_COUNT = 1;
+const OFFER_COUNT = 10;
 
 const createOffer = function () {
   return {
     author: {
-      avatar: `img/avatars/user0${AVATAR_ID}.png`,
+      avatar: `img/avatars/user0${getRandomInt(1, 8)}.png`,
     },
     offer: {
       title: 'Та самая квартира',
-      address: LOCATION_X + ' ' + LOCATION_Y,
+      address: getRandomFloat(35.65000, 35.70000) + ' ' + getRandomFloat(139.70000, 139.80000),
       price: 45,
       type: getRandomArrayElement(DWELLINGS),
       rooms: 2,
@@ -60,8 +56,8 @@ const createOffer = function () {
       photos: getRandomArrayLength(APPEARANCES),
     },
     location: {
-      x: LOCATION_X,
-      y: LOCATION_Y,
+      x: getRandomFloat(35.65000, 35.70000),
+      y: getRandomFloat(139.70000, 139.80000),
     },
   }
 }
