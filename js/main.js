@@ -1,4 +1,4 @@
 
 import {randomElements} from './data.js';
 
-randomElements;
+window.randomElements = randomElements;
