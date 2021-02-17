@@ -22,11 +22,9 @@ function getRandomArrayElement(elements) {
 function getRandomArrayLength(elements) {
   const newArray = [];
   let elementsLen = elements.length;
-
-  for(let i=getRandomInt(0, elementsLen); i < elementsLen; i+=getRandomInt(1, elementsLen)) {
+  for (let i=getRandomInt(0, elementsLen); i < elementsLen; i+=getRandomInt(1, elementsLen)) {
     newArray.push(elements[i]);
   }
-
   return newArray;
 }
 
