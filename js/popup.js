@@ -1,4 +1,4 @@
-import {randomElements, createOffer} from './data.js';
+import {createOffer} from './data.js';
 
 const convertType = {
   palace: 'Дворец',
@@ -20,7 +20,8 @@ const createFeatureFragment = function (createOffer) {
 const createPhotosFragment = function (createOffer) {
   const photosFragment = document.createDocumentFragment();
   for (let i = 0; i < createOffer.offer.photos.length; i++) {
-    const popupPhoto = cardTemplate.querySelector('.popup__photo');
+    const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+    const popupPhoto = balloonTemplate.querySelector('.popup__photo');
     const popupPhotoItem = popupPhoto.cloneNode(true);
     popupPhotoItem.src = createOffer.offer.photos[i];
     photosFragment.appendChild(popupPhotoItem);
@@ -28,30 +29,28 @@ const createPhotosFragment = function (createOffer) {
   return photosFragment;
 }
 
-const advertisementArea = document.querySelector('.map__canvas');
-const cardTemplate = document.querySelector('#card')
-  .content
-  .querySelector('.popup');
+const createPopup = function (createOffer) {
+  const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
+  const popupElement = balloonTemplate.cloneNode(true);
 
-const randomAdvertisements = randomElements;
+  popupElement.querySelector('.popup__title').textContent = createOffer.offer.title;
+  popupElement.querySelector('.popup__text--address').textContent = createOffer.offer.address;
+  popupElement.querySelector('.popup__text--price').textContent = createOffer.offer.price + '₽/ночь';
+  popupElement.querySelector('.popup__type').textContent = convertType[createOffer.offer.type];
+  popupElement.querySelector('.popup__text--capacity').textContent = createOffer.offer.rooms + ' комнаты для ' + createOffer.offer.guests + ' гостей';
+  popupElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + createOffer.offer.checkin + ', выезд до ' + createOffer.offer.checkout;
+  popupElement.querySelector('.popup__features').innerHTML = '';
+  popupElement.querySelector('.popup__features').appendChild(createFeatureFragment(createOffer));
+  popupElement.querySelector('.popup__description').textContent = createOffer.offer.description;
+  popupElement.querySelector('.popup__photos').removeChild(popupElement.querySelector('.popup__photo'));
+  popupElement.querySelector('.popup__photos').appendChild(createPhotosFragment(createOffer));
+  popupElement.querySelector('.popup__avatar').src = createOffer.author.avatar;
 
-randomAdvertisements.forEach((createOffer) => {
-  const advertisementElement = cardTemplate.cloneNode(true);
-  advertisementElement.querySelector('.popup__title').textContent = createOffer.offer.title;
-  advertisementElement.querySelector('.popup__text--address').textContent = createOffer.offer.address;
-  advertisementElement.querySelector('.popup__text--price').textContent = createOffer.offer.price + '₽/ночь';
-  advertisementElement.querySelector('.popup__type').textContent = convertType[createOffer.offer.type];
-  advertisementElement.querySelector('.popup__text--capacity').textContent = createOffer.offer.rooms + ' комнаты для ' + createOffer.offer.guests + ' гостей';
-  advertisementElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + createOffer.offer.checkin + ', выезд до ' + createOffer.offer.checkout;
-  advertisementElement.querySelector('.popup__features').innerHTML = '';
-  advertisementElement.querySelector('.popup__features').appendChild(createFeatureFragment(createOffer));
-  advertisementElement.querySelector('.popup__description').textContent = createOffer.offer.description;
-  advertisementElement.querySelector('.popup__photos').removeChild(advertisementElement.querySelector('.popup__photo'));
-  advertisementElement.querySelector('.popup__photos').appendChild(createPhotosFragment(createOffer));
-  advertisementElement.querySelector('.popup__avatar').src = createOffer.author.avatar;
-  advertisementArea.appendChild(advertisementElement);
-});
+  return popupElement;
+};
 
 createOffer();
+
+export {createPopup};
 
 

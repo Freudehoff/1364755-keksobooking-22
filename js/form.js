@@ -1,7 +1,10 @@
+import {addressHandler} from './map.js';
+
 const typeInput = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 const timeInInput = document.querySelector('#timein');
 const timeOutInput = document.querySelector('#timeout');
+const addressInput = document.querySelector('#address');
 
 typeInput.addEventListener('change', function (evt) {
   switch (evt.target.value) {
@@ -31,5 +34,11 @@ timeInInput.addEventListener('change', function (evt) {
 timeOutInput.addEventListener('change', function (evt) {
   timeInInput.value = evt.target.value;
 })
+
+addressInput.setAttribute('disabled', 'disabled');
+addressInput.value = addressHandler._latlng.lat.toFixed(5) + ' ' + addressHandler._latlng.lng.toFixed(5);
+
+export {addressInput};
+
 
 

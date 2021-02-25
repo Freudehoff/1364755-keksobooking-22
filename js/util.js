@@ -1,10 +1,11 @@
 
-const getRandomFloat = function (from, to, decimal = 2) {
+const getRandomFloat = function (from, to, decimal = 5) {
   if (to > from && from >= 0) {
-    return (Math.random() * to).toFixed(decimal);
+    return ((Math.random() * (to - from + 0.00001)) + from).toFixed(decimal);
   }
   throw new Error('Input data error');
 }
+
 
 const getRandomInt = function (from, to) {
   if (to > from && from >= 0) {

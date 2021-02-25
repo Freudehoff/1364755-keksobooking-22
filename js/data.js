@@ -9,7 +9,7 @@ const TIME = ['12:00', '13:00', '14:00'];
 const EXTRAS = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const APPEARANCES = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const DESCRIPTION = ['Светлая комната', 'Тёмная комната', 'Белая комната', 'Зелёная комната'];
-const OFFER_COUNT = 1;
+const OFFER_COUNT = 3;
 
 const createOffer = function () {
   const LOCATION_X = getRandomFloat(35.65000, 35.70000);
