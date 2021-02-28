@@ -9,6 +9,9 @@ const mapForm = document.querySelector('.map__filters');
 const mapFilters = mapForm.querySelectorAll('.map__filter');
 const mapFeature = mapForm.querySelector('.map__features');
 
+const MAIN_LAT = 35.68950;
+const MAIN_LNG = 139.69171;
+
 form.classList.add('ad-form--disabled'); // Неактивное состояние формы
 photo.setAttribute('disabled', 'disabled');
 elements.forEach( function (element) {
@@ -37,8 +40,8 @@ const map = L.map('map-canvas')
     mapFeature.removeAttribute('disabled', 'disabled');
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
   }, 10);
 
 L.tileLayer(
@@ -49,15 +52,15 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinIcon  = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
   },
   {
     draggable: true,
@@ -67,16 +70,16 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-const addressHandler = mainPinMarker.on('moveend', function (evt) {
+mainPinMarker.on('moveend', function (evt) {
   addressInput.value = evt.target.getLatLng().lat.toFixed(5) + ' ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
-randomElements.forEach( function (rand) { // Добавляем метки из массива
-  const lat = rand.location.x;
-  const lng = rand.location.y;
+randomElements.forEach( function (createOffer) { // Добавляем метки из массива
+  const lat = createOffer.location.x;
+  const lng = createOffer.location.y;
 
   const icon = L.icon({
-    iconUrl: '../img/pin.svg',
+    iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
@@ -93,11 +96,11 @@ randomElements.forEach( function (rand) { // Добавляем метки из 
 
   marker
     .addTo(map)
-    .bindPopup(createPopup(rand),
+    .bindPopup(createPopup(createOffer),
       {
         keepInView: true,
       },
     );
 });
 
-export {addressHandler};
+export {MAIN_LAT, MAIN_LNG};

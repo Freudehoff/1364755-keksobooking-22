@@ -1,4 +1,4 @@
-import {addressHandler} from './map.js';
+import {MAIN_LAT, MAIN_LNG} from './map.js';
 
 const typeInput = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
@@ -36,7 +36,7 @@ timeOutInput.addEventListener('change', function (evt) {
 })
 
 addressInput.setAttribute('disabled', 'disabled');
-addressInput.value = addressHandler._latlng.lat.toFixed(5) + ' ' + addressHandler._latlng.lng.toFixed(5);
+addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
 
 export {addressInput};
 
