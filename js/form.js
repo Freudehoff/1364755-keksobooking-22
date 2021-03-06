@@ -50,7 +50,7 @@ const validationRoomsAndGuests = function () { // Валидация колич�
 
   if (roomValue < guestsValue && guestsValue !== NOT_FOR_GUESTS) {
     roomNumberInput.setCustomValidity('Слишком мало комнат');
-  } else if (roomValue === MAX_ROOM & guestsValue !== NOT_FOR_GUESTS) {
+  } else if (roomValue === MAX_ROOM && guestsValue !== NOT_FOR_GUESTS) {
     roomNumberInput.setCustomValidity('Такое количество комнат не для гостей');
   } else if (roomValue !== MAX_ROOM && guestsValue === NOT_FOR_GUESTS) {
     roomNumberInput.setCustomValidity('Выберите другой вариант');
@@ -95,7 +95,7 @@ priceInput.addEventListener('input', function () { // Валидация пол�
   priceInput.reportValidity();
 });
 
-addressInput.setAttribute('disabled', 'disabled');
+addressInput.setAttribute('readonly', 'readonly');
 addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
 
 export {addressInput};
