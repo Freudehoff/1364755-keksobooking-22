@@ -1,4 +1,4 @@
-import {createOffer} from './data.js';
+// import {createOffer} from './data.js';
 
 const convertType = {
   palace: 'Дворец',
@@ -49,7 +49,7 @@ const createPopup = function (createOffer) {
   return popupElement;
 };
 
-createOffer();
+// createOffer();
 
 export {createPopup};
 
