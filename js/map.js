@@ -4,17 +4,23 @@ import {createPopup} from './popup.js';
 
 const MAIN_LAT = 35.68950;
 const MAIN_LNG = 139.69171;
+const MAP_SCALE = 10;
+
+const mainAddress = () => {
+  addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
+};
 
 /* global L:readonly */
 const map = L.map('map-canvas')
   .on('load', () => { // Инициализация карты и запуск активного состояния
     activateForm();
     activateFilter();
+    mainAddress();
   })
   .setView({
     lat: MAIN_LAT,
     lng: MAIN_LNG,
-  }, 10);
+  }, MAP_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -42,12 +48,12 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', function (evt) {
+mainPinMarker.on('moveend', (evt) => {
   addressInput.value = evt.target.getLatLng().lat.toFixed(5) + ' ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
 getData((offers) => {
-  offers.forEach( function (createOffer) { // Добавляем метки из массива
+  offers.forEach((createOffer) => { // Добавляем метки из массива
     const lat = createOffer.location.lat;
     const lng = createOffer.location.lng;
 
@@ -77,4 +83,17 @@ getData((offers) => {
   });
 });
 
-export {MAIN_LAT, MAIN_LNG};
+const resetMarkerAndAddress = () => {
+  map.setView({
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
+  }, MAP_SCALE);
+  map.closePopup();
+  mainPinMarker.setLatLng({
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
+  });
+  mainAddress();
+};
+
+export {resetMarkerAndAddress};
