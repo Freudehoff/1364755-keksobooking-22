@@ -1,32 +1,67 @@
+const main = document.querySelector('main');
+const messageTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
-const getRandomFloat = function (from, to, decimal = 5) {
-  if (to > from && from >= 0) {
-    return ((Math.random() * (to - from + 0.00001)) + from).toFixed(decimal);
-  }
-  throw new Error('Input data error');
-}
+const ALERT_SHOW_TIME = 5000;
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
 
-const getRandomInt = function (from, to) {
-  if (to > from && from >= 0) {
-    from = Math.ceil(from);
-    to = Math.floor(to);
-    return Math.floor(Math.random() * (to - from)) + from;
-  }
-  throw new Error('Input data error');
-}
+  alertContainer.textContent = message;
 
-const getRandomArrayElement = function (elements) {
-  return elements[getRandomInt(0, elements.length - 1)];
-}
+  document.body.append(alertContainer);
 
-const getRandomArrayLength = function (elements) {
-  const newArray = [];
-  let elementsLen = elements.length;
-  for (let i=getRandomInt(0, elementsLen); i < elementsLen; i+=getRandomInt(1, elementsLen)) {
-    newArray.push(elements[i]);
-  }
-  return newArray;
-}
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
 
-export {getRandomFloat, getRandomInt, getRandomArrayElement, getRandomArrayLength};
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const createPopupMessage = (typePopup) => {
+
+  main.append(typePopup);
+
+  const onPopupEscKeydown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      closePopup(typePopup);
+    }
+  };
+
+  const closePopup  = () => {
+    typePopup.remove();
+    document.removeEventListener('keydown', onPopupEscKeydown);
+  };
+
+  document.addEventListener('keydown', onPopupEscKeydown);
+
+  typePopup.addEventListener('click', () => {
+    closePopup(typePopup);
+  });
+};
+
+const showSuccessMessage = () => {
+  messageTemplate.style.zIndex = '500';
+  const successMessage = messageTemplate.cloneNode(true);
+  createPopupMessage(successMessage);
+};
+
+const showErrorMessage = () => {
+  errorTemplate.style.zIndex = '500';
+  const errorMessage = errorTemplate.cloneNode(true);
+  createPopupMessage(errorMessage);
+};
+
+export {showAlert, showSuccessMessage, showErrorMessage};

@@ -1,48 +1,26 @@
-import {addressInput} from './form.js';
-import {randomElements} from './data.js';
+import {addressInput, activateForm, activateFilter} from './form.js';
+import {getData} from './api.js';
 import {createPopup} from './popup.js';
-
-const form = document.querySelector('.ad-form');
-const photo = form.querySelector('.ad-form-header');
-const elements = form.querySelectorAll('.ad-form__element');
-const mapForm = document.querySelector('.map__filters');
-const mapFilters = mapForm.querySelectorAll('.map__filter');
-const mapFeature = mapForm.querySelector('.map__features');
 
 const MAIN_LAT = 35.68950;
 const MAIN_LNG = 139.69171;
+const MAP_SCALE = 10;
 
-form.classList.add('ad-form--disabled'); // Неактивное состояние формы
-photo.setAttribute('disabled', 'disabled');
-elements.forEach( function (element) {
-  element.setAttribute('disabled', 'disabled');
-});
-
-mapForm.classList.add('map__filters--disabled'); // Неактивное состояние фильтра карты
-mapFilters.forEach( function (filter) {
-  filter.setAttribute('disabled', 'disabled');
-});
-mapFeature.setAttribute('disabled', 'disabled');
+const mainAddress = () => {
+  addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
+};
 
 /* global L:readonly */
 const map = L.map('map-canvas')
-  .on('load', function () { // Инициализация карты и запуск активного состояния
-    form.classList.remove('ad-form--disabled');
-    photo.removeAttribute('disabled', 'disabled');
-    elements.forEach( function (element) {
-      element.removeAttribute('disabled', 'disabled');
-    });
-
-    mapForm.classList.remove('map__filters--disabled');
-    mapFilters.forEach( function (filter) {
-      filter.removeAttribute('disabled', 'disabled');
-    });
-    mapFeature.removeAttribute('disabled', 'disabled');
+  .on('load', () => { // Инициализация карты и запуск активного состояния
+    activateForm();
+    activateFilter();
+    mainAddress();
   })
   .setView({
     lat: MAIN_LAT,
     lng: MAIN_LNG,
-  }, 10);
+  }, MAP_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -70,37 +48,52 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', function (evt) {
+mainPinMarker.on('moveend', (evt) => {
   addressInput.value = evt.target.getLatLng().lat.toFixed(5) + ' ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
-randomElements.forEach( function (createOffer) { // Добавляем метки из массива
-  const lat = createOffer.location.x;
-  const lng = createOffer.location.y;
+getData((offers) => {
+  offers.forEach((createOffer) => { // Добавляем метки из массива
+    const lat = createOffer.location.lat;
+    const lng = createOffer.location.lng;
 
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(createPopup(createOffer),
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat,
+        lng,
+      },
+      {
+        icon,
       },
     );
+
+    marker
+      .addTo(map)
+      .bindPopup(createPopup(createOffer),
+        {
+          keepInView: true,
+        },
+      );
+  });
 });
 
-export {MAIN_LAT, MAIN_LNG};
+const resetMarkerAndAddress = () => {
+  map.setView({
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
+  }, MAP_SCALE);
+  map.closePopup();
+  mainPinMarker.setLatLng({
+    lat: MAIN_LAT,
+    lng: MAIN_LNG,
+  });
+  mainAddress();
+};
+
+export {resetMarkerAndAddress};

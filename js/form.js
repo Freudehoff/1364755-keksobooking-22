@@ -1,13 +1,23 @@
-import {MAIN_LAT, MAIN_LNG} from './map.js';
+import {showSuccessMessage, showErrorMessage} from './util.js';
+import {sendData} from './api.js';
+import {resetMarkerAndAddress} from './popup.js';
 
-const typeInput = document.querySelector('#type');
-const priceInput = document.querySelector('#price');
-const timeInInput = document.querySelector('#timein');
-const timeOutInput = document.querySelector('#timeout');
-const addressInput = document.querySelector('#address');
-const titleInput = document.querySelector('#title');
-const roomNumberInput = document.querySelector('#room_number');
-const guestsInput = document.querySelector('#capacity');
+const form = document.querySelector('.ad-form');
+const photo = form.querySelector('.ad-form-header');
+const elements = form.querySelectorAll('.ad-form__element');
+const typeInput = form.querySelector('#type');
+const priceInput = form.querySelector('#price');
+const timeInInput = form.querySelector('#timein');
+const timeOutInput = form.querySelector('#timeout');
+const addressInput = form.querySelector('#address');
+const titleInput = form.querySelector('#title');
+const roomNumberInput = form.querySelector('#room_number');
+const guestsInput = form.querySelector('#capacity');
+const resetForm = form.querySelector('.ad-form__reset');
+
+const mapForm = document.querySelector('.map__filters');
+const mapFilters = mapForm.querySelectorAll('.map__filter');
+const mapFeature = mapForm.querySelector('.map__features');
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -15,7 +25,7 @@ const MAX_PRICE = 1000000;
 const MAX_ROOM = 100;
 const NOT_FOR_GUESTS = 0;
 
-typeInput.addEventListener('change', function (evt) {
+typeInput.addEventListener('change', (evt) => {
   switch (evt.target.value) {
     case 'bungalow':
       priceInput.min = 0;
@@ -36,15 +46,15 @@ typeInput.addEventListener('change', function (evt) {
   }
 });
 
-timeInInput.addEventListener('change', function (evt) {
+timeInInput.addEventListener('change', (evt) => {
   timeOutInput.value = evt.target.value;
 });
 
-timeOutInput.addEventListener('change', function (evt) {
+timeOutInput.addEventListener('change', (evt) => {
   timeInInput.value = evt.target.value;
 });
 
-const validationRoomsAndGuests = function () { // Валидация количества комнат и гостей
+const validationRoomsAndGuests = () => { // Валидация количества комнат и гостей
   const roomValue = Number(roomNumberInput.value);
   const guestsValue = Number(guestsInput.value);
 
@@ -61,15 +71,15 @@ const validationRoomsAndGuests = function () { // Валидация колич�
   roomNumberInput.reportValidity();
 };
 
-roomNumberInput.addEventListener('change', function () {
+roomNumberInput.addEventListener('change', () => {
   validationRoomsAndGuests();
 });
 
-guestsInput.addEventListener('change', function () {
+guestsInput.addEventListener('change', () => {
   validationRoomsAndGuests();
 });
 
-titleInput.addEventListener('input', function () { // Валидация поля ввода заголовка объявления
+titleInput.addEventListener('input', () => { // Валидация поля ввода заголовка объявления
   const valueLength = titleInput.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
@@ -83,7 +93,7 @@ titleInput.addEventListener('input', function () { // Валидация пол�
   titleInput.reportValidity();
 });
 
-priceInput.addEventListener('input', function () { // Валидация поля ввода цены
+priceInput.addEventListener('input', () => { // Валидация поля ввода цены
   const valuePrice = priceInput.value;
 
   if (valuePrice > MAX_PRICE) {
@@ -96,9 +106,73 @@ priceInput.addEventListener('input', function () { // Валидация пол�
 });
 
 addressInput.setAttribute('readonly', 'readonly');
-addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
 
-export {addressInput};
+const disableForm = () => {
+  form.classList.add('ad-form--disabled'); // Неактивное состояние формы
+  photo.setAttribute('disabled', 'disabled');
+  elements.forEach((element) => {
+    element.setAttribute('disabled', 'disabled');
+  });
+};
+
+disableForm();
+
+const activateForm = () => {
+  form.classList.remove('ad-form--disabled'); // Активное состояние формы
+  photo.removeAttribute('disabled', 'disabled');
+  elements.forEach((element) => {
+    element.removeAttribute('disabled', 'disabled');
+  });
+};
+
+const disableFilter = () => {
+  mapForm.classList.add('map__filters--disabled'); // Неактивное состояние фильтра карты
+  mapFilters.forEach((filter) => {
+    filter.setAttribute('disabled', 'disabled');
+  });
+  mapFeature.setAttribute('disabled', 'disabled');
+};
+
+disableFilter();
+
+const activateFilter = () => { // Активное состояние фильтра карты
+  mapForm.classList.remove('map__filters--disabled');
+  mapFilters.forEach((filter) => {
+    filter.removeAttribute('disabled', 'disabled');
+  });
+  mapFeature.removeAttribute('disabled', 'disabled');
+};
+
+const sendFormSuccess = () => { // Успешная отправка формы
+  showSuccessMessage();
+  form.reset();
+  mapForm.reset();
+  resetMarkerAndAddress();
+};
+
+const sendFormError = () => { // Ошибка при отправки формы
+  showErrorMessage();
+};
+
+const setUserFormSubmit = () => { // Отправка формы
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(sendFormSuccess, sendFormError, new FormData(evt.target));
+  });
+};
+
+setUserFormSubmit();
+
+resetForm.addEventListener('click', (evt) => { // Очистка формы по нажатию на кнопку
+  evt.preventDefault();
+  form.reset();
+  mapForm.reset();
+  resetMarkerAndAddress();
+})
+
+
+export {addressInput, activateForm, activateFilter};
 
 
 

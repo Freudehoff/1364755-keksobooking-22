@@ -1,4 +1,4 @@
-import {createOffer} from './data.js';
+import {resetMarkerAndAddress} from './map.js';
 
 const convertType = {
   palace: 'Дворец',
@@ -7,7 +7,7 @@ const convertType = {
   bungalow: 'Бунгало',
 };
 
-const createFeatureFragment = function (createOffer) {
+const createFeatureFragment = (createOffer) => {
   const featureFragment = document.createDocumentFragment();
   for (let i = 0; i < createOffer.offer.features.length; i++) {
     const featureItem = document.createElement('li');
@@ -17,7 +17,7 @@ const createFeatureFragment = function (createOffer) {
   return featureFragment;
 }
 
-const createPhotosFragment = function (createOffer) {
+const createPhotosFragment = (createOffer) => {
   const photosFragment = document.createDocumentFragment();
   for (let i = 0; i < createOffer.offer.photos.length; i++) {
     const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -29,7 +29,7 @@ const createPhotosFragment = function (createOffer) {
   return photosFragment;
 }
 
-const createPopup = function (createOffer) {
+const createPopup = (createOffer) => {
   const balloonTemplate = document.querySelector('#card').content.querySelector('.popup');
   const popupElement = balloonTemplate.cloneNode(true);
 
@@ -49,8 +49,6 @@ const createPopup = function (createOffer) {
   return popupElement;
 };
 
-createOffer();
-
-export {createPopup};
+export {createPopup, resetMarkerAndAddress};
 
 
