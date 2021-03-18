@@ -1,6 +1,7 @@
 import {showSuccessMessage, showErrorMessage} from './util.js';
 import {sendData} from './api.js';
 import {resetMarkerAndAddress} from './popup.js';
+import {mapForm} from './map-filter.js';
 
 const form = document.querySelector('.ad-form');
 const photo = form.querySelector('.ad-form-header');
@@ -14,10 +15,6 @@ const titleInput = form.querySelector('#title');
 const roomNumberInput = form.querySelector('#room_number');
 const guestsInput = form.querySelector('#capacity');
 const resetForm = form.querySelector('.ad-form__reset');
-
-const mapForm = document.querySelector('.map__filters');
-const mapFilters = mapForm.querySelectorAll('.map__filter');
-const mapFeature = mapForm.querySelector('.map__features');
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -125,24 +122,6 @@ const activateForm = () => {
   });
 };
 
-const disableFilter = () => {
-  mapForm.classList.add('map__filters--disabled'); // Неактивное состояние фильтра карты
-  mapFilters.forEach((filter) => {
-    filter.setAttribute('disabled', 'disabled');
-  });
-  mapFeature.setAttribute('disabled', 'disabled');
-};
-
-disableFilter();
-
-const activateFilter = () => { // Активное состояние фильтра карты
-  mapForm.classList.remove('map__filters--disabled');
-  mapFilters.forEach((filter) => {
-    filter.removeAttribute('disabled', 'disabled');
-  });
-  mapFeature.removeAttribute('disabled', 'disabled');
-};
-
 const sendFormSuccess = () => { // Успешная отправка формы
   showSuccessMessage();
   form.reset();
@@ -172,7 +151,7 @@ resetForm.addEventListener('click', (evt) => { // Очистка формы по
 })
 
 
-export {addressInput, activateForm, activateFilter};
+export {addressInput, activateForm};
 
 
 
