@@ -1,5 +1,11 @@
 
 import './popup.js';
+import {setFilterChange} from './map-filter.js';
 import './form.js';
-import './map.js';
-import './api.js';
+import {renderOnMap, updateOffers} from './map.js';
+import {getData} from './api.js';
+
+getData((offers) => {
+  renderOnMap(offers);
+  setFilterChange(() => updateOffers(offers));
+});

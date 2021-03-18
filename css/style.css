@@ -976,6 +976,18 @@ fieldset {
   background-image: url("../img/muffin-red.svg");
 }
 
+.error__alert-message {
+  padding: 10px 3px;
+  text-align: center;
+  font-size: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: red;
+  z-index: 100;
+}
+
 .error__button {
   padding: 10px;
 
