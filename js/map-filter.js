@@ -12,12 +12,6 @@ const defaultFilter = {
   priceFilter: 'any',
   roomsFilter: 'any',
   guestsFilter: 'any',
-  wifi: false,
-  dishwasher: false,
-  parking: false,
-  washer: false,
-  elevator: false,
-  conditioner: false,
 };
 
 const priceRange = {
