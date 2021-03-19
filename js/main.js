@@ -1,11 +1,13 @@
-
+/* global _:readonly */
 import './popup.js';
 import {setFilterChange} from './map-filter.js';
 import './form.js';
 import {renderOnMap, updateOffers} from './map.js';
 import {getData} from './api.js';
 
+const RERENDER_DELAY = 500;
+
 getData((offers) => {
   renderOnMap(offers);
-  setFilterChange(() => updateOffers(offers));
+  setFilterChange(_.debounce(() => updateOffers(offers), RERENDER_DELAY));
 });
