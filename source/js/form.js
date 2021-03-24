@@ -150,7 +150,6 @@ resetForm.addEventListener('click', (evt) => { // Очистка формы по
   resetMarkerAndAddress();
 })
 
-
 export {addressInput, activateForm};
 
 
