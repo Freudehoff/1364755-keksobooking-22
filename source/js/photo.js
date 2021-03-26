@@ -1,4 +1,6 @@
 const FILE_TYPES = ['png', 'jpeg', 'jpg'];
+const HOUSING_PHOTO_WIDTH = 70;
+const HOUSING_PHOTO_HEIGHT = 70;
 
 const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
 const avatarPreview = document.querySelector('.ad-form-header__image');
@@ -38,8 +40,8 @@ housingPhotoChooser.addEventListener('change', () => {
     reader.addEventListener('load', () => {
       const addPhoto = document.createElement('img');
       housingPhotoPreview.appendChild(addPhoto);
-      addPhoto.width = 70;
-      addPhoto.height = 70;
+      addPhoto.width = HOUSING_PHOTO_WIDTH;
+      addPhoto.height = HOUSING_PHOTO_HEIGHT;
       addPhoto.src = reader.result;
     });
 

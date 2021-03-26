@@ -21,22 +21,23 @@ const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
 const MAX_ROOM = 100;
 const NOT_FOR_GUESTS = 0;
+const HOUSING_TYPES = ['bungalow', 'flat', 'house', 'palace'];
 
 typeInput.addEventListener('change', (evt) => {
   switch (evt.target.value) {
-    case 'bungalow':
+    case HOUSING_TYPES[0]:
       priceInput.min = 0;
       priceInput.placeholder = 0;
       break;
-    case 'flat':
+    case HOUSING_TYPES[1]:
       priceInput.min = 1000;
       priceInput.placeholder = 1000;
       break;
-    case 'house':
+    case HOUSING_TYPES[2]:
       priceInput.min = 5000;
       priceInput.placeholder = 5000;
       break;
-    case 'palace':
+    case HOUSING_TYPES[3]:
       priceInput.min = 10000;
       priceInput.placeholder = 10000;
       break;

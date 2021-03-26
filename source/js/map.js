@@ -6,6 +6,12 @@ const MAIN_LAT = 35.68950;
 const MAIN_LNG = 139.69171;
 const MAP_SCALE = 10;
 const OFFERS_COUNT = 10;
+const MAIN_PIN_URL = 'img/main-pin.svg';
+const MAIN_ICON_SIZE = [52, 52];
+const MAIN_ICON_ANCHOR = [26, 52];
+const OFFER_PIN_URL = 'img/pin.svg';
+const OFFER_ICON_SIZE = [40, 40];
+const OFFER_ICON_ANCHOR = [20, 40];
 
 const mainAddress = () => {
   addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
@@ -31,9 +37,9 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinIcon  = L.icon({
-  iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconUrl: MAIN_PIN_URL,
+  iconSize: MAIN_ICON_SIZE,
+  iconAnchor: MAIN_ICON_ANCHOR,
 });
 
 const mainPinMarker = L.marker(
@@ -62,10 +68,10 @@ const renderOnMap = (offers) => {
       const lat = createOffer.location.lat;
       const lng = createOffer.location.lng;
 
-      const icon = L.icon({
-        iconUrl: 'img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
+      const offerIcon = L.icon({
+        iconUrl: OFFER_PIN_URL,
+        iconSize: OFFER_ICON_SIZE,
+        iconAnchor: OFFER_ICON_ANCHOR,
       });
 
       const marker = L.marker(
@@ -74,7 +80,7 @@ const renderOnMap = (offers) => {
           lng,
         },
         {
-          icon,
+          icon: offerIcon,
         },
       );
 
