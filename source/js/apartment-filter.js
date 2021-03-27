@@ -19,7 +19,7 @@ const priceRange = {
   high: 50000,
 }
 
-const PRICE_FILTER_VALUE = ['low', 'middle', 'high'];
+const PRICE_FILTER_VALUES = ['low', 'middle', 'high'];
 
 const filter = (offers) => {
   let filteredOffers = offers.slice();
@@ -30,13 +30,13 @@ const filter = (offers) => {
 
   if (priceFilter.value !== defaultFilter.priceFilter) {
     switch (priceFilter.value) {
-      case PRICE_FILTER_VALUE[0]:
+      case PRICE_FILTER_VALUES[0]:
         filteredOffers = filteredOffers.filter((createOffer) => createOffer.offer.price < priceRange.low);
         break;
-      case PRICE_FILTER_VALUE[1]:
+      case PRICE_FILTER_VALUES[1]:
         filteredOffers = filteredOffers.filter((createOffer) => createOffer.offer.price >= priceRange.low && createOffer.offer.price <= priceRange.high);
         break;
-      case PRICE_FILTER_VALUE[2]:
+      case PRICE_FILTER_VALUES[2]:
         filteredOffers = filteredOffers.filter((createOffer) => createOffer.offer.price > priceRange.high);
         break;
     }

@@ -1,4 +1,3 @@
-const FILE_TYPES = ['png', 'jpeg', 'jpg'];
 const HOUSING_PHOTO_WIDTH = 70;
 const HOUSING_PHOTO_HEIGHT = 70;
 
@@ -9,42 +8,26 @@ const housingPhotoPreview = document.querySelector('.ad-form__photo');
 
 avatarChooser.addEventListener('change', () => {
   const file = avatarChooser.files[0];
-  const fileName = file.name.toLowerCase();
+  const reader = new FileReader();
 
-  const matches = FILE_TYPES.some((it) => {
-    return fileName.endsWith(it);
+  reader.addEventListener('load', () => {
+    avatarPreview.src = reader.result;
   });
 
-  if (matches) {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => {
-      avatarPreview.src = reader.result;
-    });
-
-    reader.readAsDataURL(file);
-  }
+  reader.readAsDataURL(file);
 });
 
 housingPhotoChooser.addEventListener('change', () => {
   const file = housingPhotoChooser.files[0];
-  const fileName = file.name.toLowerCase();
+  const reader = new FileReader();
 
-  const matches = FILE_TYPES.some((it) => {
-    return fileName.endsWith(it);
+  reader.addEventListener('load', () => {
+    const addPhoto = document.createElement('img');
+    housingPhotoPreview.appendChild(addPhoto);
+    addPhoto.width = HOUSING_PHOTO_WIDTH;
+    addPhoto.height = HOUSING_PHOTO_HEIGHT;
+    addPhoto.src = reader.result;
   });
 
-  if (matches) {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => {
-      const addPhoto = document.createElement('img');
-      housingPhotoPreview.appendChild(addPhoto);
-      addPhoto.width = HOUSING_PHOTO_WIDTH;
-      addPhoto.height = HOUSING_PHOTO_HEIGHT;
-      addPhoto.src = reader.result;
-    });
-
-    reader.readAsDataURL(file);
-  }
+  reader.readAsDataURL(file);
 });

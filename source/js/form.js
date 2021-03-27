@@ -1,11 +1,11 @@
 import {showSuccessMessage, showErrorMessage} from './util.js';
 import {sendData} from './api.js';
 import {resetMarkerAndAddress} from './popup.js';
-import {mapForm} from './map-filter.js';
+import {mapForm} from './apartment-filter.js';
 
 const form = document.querySelector('.ad-form');
 const photo = form.querySelector('.ad-form-header');
-const elements = form.querySelectorAll('.ad-form__element');
+const entryFields = form.querySelectorAll('.ad-form__element');
 const typeInput = form.querySelector('#type');
 const priceInput = form.querySelector('#price');
 const timeInInput = form.querySelector('#timein');
@@ -108,8 +108,8 @@ addressInput.setAttribute('readonly', 'readonly');
 const disableForm = () => {
   form.classList.add('ad-form--disabled'); // Неактивное состояние формы
   photo.setAttribute('disabled', 'disabled');
-  elements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+  entryFields.forEach((field) => {
+    field.setAttribute('disabled', 'disabled');
   });
 };
 
@@ -118,8 +118,8 @@ disableForm();
 const activateForm = () => {
   form.classList.remove('ad-form--disabled'); // Активное состояние формы
   photo.removeAttribute('disabled', 'disabled');
-  elements.forEach((element) => {
-    element.removeAttribute('disabled', 'disabled');
+  entryFields.forEach((field) => {
+    field.removeAttribute('disabled', 'disabled');
   });
 };
 

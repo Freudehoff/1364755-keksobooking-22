@@ -1,5 +1,5 @@
 import {addressInput, activateForm} from './form.js';
-import {activateFilter, filter} from './map-filter.js';
+import {filter} from './apartment-filter.js';
 import {createPopup} from './popup.js';
 
 const MAIN_LAT = 35.68950;
@@ -7,13 +7,13 @@ const MAIN_LNG = 139.69171;
 const MAP_SCALE = 10;
 const OFFERS_COUNT = 10;
 const MAIN_PIN_URL = 'img/main-pin.svg';
-const MAIN_ICON_SIZE = [52, 52];
-const MAIN_ICON_ANCHOR = [26, 52];
+const MAIN_ICON_SIZES = [52, 52];
+const MAIN_ICON_POINTS = [26, 52];
 const OFFER_PIN_URL = 'img/pin.svg';
-const OFFER_ICON_SIZE = [40, 40];
-const OFFER_ICON_ANCHOR = [20, 40];
+const OFFER_ICON_SIZES = [40, 40];
+const OFFER_ICON_POINTS = [20, 40];
 
-const mainAddress = () => {
+const setMainAddress = () => {
   addressInput.value = MAIN_LAT.toFixed(5) + ' ' + MAIN_LNG.toFixed(5);
 };
 
@@ -21,8 +21,7 @@ const mainAddress = () => {
 const map = L.map('map-canvas')
   .on('load', () => { // Инициализация карты и запуск активного состояния
     activateForm();
-    activateFilter();
-    mainAddress();
+    setMainAddress();
   })
   .setView({
     lat: MAIN_LAT,
@@ -38,8 +37,8 @@ L.tileLayer(
 
 const mainPinIcon  = L.icon({
   iconUrl: MAIN_PIN_URL,
-  iconSize: MAIN_ICON_SIZE,
-  iconAnchor: MAIN_ICON_ANCHOR,
+  iconSize: MAIN_ICON_SIZES,
+  iconAnchor: MAIN_ICON_POINTS,
 });
 
 const mainPinMarker = L.marker(
@@ -70,8 +69,8 @@ const renderOnMap = (offers) => {
 
       const offerIcon = L.icon({
         iconUrl: OFFER_PIN_URL,
-        iconSize: OFFER_ICON_SIZE,
-        iconAnchor: OFFER_ICON_ANCHOR,
+        iconSize: OFFER_ICON_SIZES,
+        iconAnchor: OFFER_ICON_POINTS,
       });
 
       const marker = L.marker(
@@ -105,7 +104,7 @@ const resetMarkerAndAddress = () => {
     lat: MAIN_LAT,
     lng: MAIN_LNG,
   });
-  mainAddress();
+  setMainAddress();
 };
 
 const resetMarkers = () => {
